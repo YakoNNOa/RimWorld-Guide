@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RimWorld Guide</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        sans-serif;
+
+      background: #111315;
+      color: #f3f3f3;
+      min-height: 100vh;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* ------------------------------
+       上部ヘッダー
+    ------------------------------ */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      padding: 14px 18px;
+
+      background: rgba(17, 19, 21, 0.96);
+      border-bottom: 1px solid #303438;
+      backdrop-filter: blur(12px);
+    }
+
+    .menu-button {
+      display: none;
+
+      width: 44px;
+      height: 44px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: #272b2f;
+      color: white;
+
+      font-size: 22px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-size: 21px;
+      font-weight: 800;
+
+      white-space: nowrap;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      background: #9c6b35;
+      color: white;
+    }
+
+    /* ------------------------------
+       全体レイアウト
+    ------------------------------ */
+
+    .app {
+      display: flex;
+      min-height: calc(100vh - 73px);
+    }
+
+    /* ------------------------------
+       サイドバー
+    ------------------------------ */
+
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+
+      padding: 18px 12px;
+
+      border-right: 1px solid #303438;
+
+      background: #17191c;
+    }
+
+    .sidebar-title {
+      color: #8f969e;
+      font-size: 12px;
+      font-weight: 700;
+
+      margin: 8px 12px 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-button {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 12px 14px;
+      margin-bottom: 5px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: transparent;
+      color: #d8dadd;
+
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .nav-button:hover,
+    .nav-button.active {
+      background: #2a2e32;
+      color: white;
+    }
+
+    /* ------------------------------
+       メイン部分
+    ------------------------------ */
+
+    .main {
+      width: 100%;
+      max-width: 1100px;
+
+      margin: 0 auto;
+      padding: 32px 28px 80px;
+    }
+
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #aeb4ba;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* ------------------------------
+       検索
+    ------------------------------ */
+
+    .search-wrap {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 17px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      font-size: 20px;
+      pointer-events: none;
+    }
+
+    .search {
+      width: 100%;
+
+      padding: 17px 18px 17px 50px;
+
+      border: 1px solid #383d42;
+      border-radius: 14px;
+
+      outline: none;
+
+      background: #1c1f22;
+      color: white;
+
+      font-size: 17px;
+    }
+
+    .search:focus {
+      border-color: #9c6b35;
+    }
+
+    .search::placeholder {
+      color: #747b82;
+    }
+
+    /* ------------------------------
+       見出し
+    ------------------------------ */
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      color: #8d949a;
+      font-size: 13px;
+    }
+
+    /* ------------------------------
+       大項目カード
+    ------------------------------ */
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .category-card {
+      min-height: 145px;
+
+      padding: 21px;
+
+      border: 1px solid #34383c;
+      border-radius: 15px;
+
+      background: #1b1e21;
+      color: white;
+
+      text-align: left;
+
+      transition: 0.15s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-2px);
+      border-color: #565d64;
+      background: #202428;
+    }
+
+    .category-icon {
+      font-size: 29px;
+      margin-bottom: 14px;
+    }
+
+    .category-name {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .category-description {
+      color: #a9afb5;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ------------------------------
+       中項目
+    ------------------------------ */
+
+    .back-button {
+      border: none;
+
+      padding: 9px 0;
+      margin-bottom: 18px;
+
+      background: transparent;
+      color: #c4c8cc;
+
+      font-size: 15px;
+    }
+
+    .back-button:hover {
+      color: white;
+    }
+
+    .page-title {
+      font-size: 31px;
+      margin-bottom: 9px;
+    }
+
+    .page-description {
+      color: #aab0b6;
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .topic-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .topic-button {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+
+      padding: 18px 19px;
+
+      border: 1px solid #34393d;
+      border-radius: 13px;
+
+      background: #1b1e21;
+      color: white;
+
+      text-align: left;
+    }
+
+    .topic-button:hover {
+      background: #22262a;
+      border-color: #565c62;
+    }
+
+    .topic-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .topic-description {
+      color: #9fa5ab;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .arrow {
+      color: #7c838a;
+      font-size: 21px;
+    }
+
+    /* ------------------------------
+       記事
+    ------------------------------ */
+
+    .article {
+      max-width: 780px;
+    }
+
+    .article h1 {
+      font-size: clamp(28px, 5vw, 38px);
+      line-height: 1.25;
+
+      margin-bottom: 20px;
+    }
+
+    .answer-box {
+      padding: 19px 20px;
+
+      border-left: 4px solid #9c6b35;
+      border-radius: 0 12px 12px 0;
+
+      background: #211f1b;
+
+      margin-bottom: 28px;
+    }
+
+    .answer-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #c89a62;
+
+      margin-bottom: 6px;
+    }
+
+    .answer-text {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .article-section {
+      margin: 31px 0;
+    }
+
+    .article-section h2 {
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+
+    .article-section p,
+    .article-section li {
+      font-size: 17px;
+      line-height: 1.85;
+      color: #d7dade;
+    }
+
+    .article-section ol,
+    .article-section ul {
+      padding-left: 24px;
+    }
+
+    .article-section li {
+      margin-bottom: 8px;
+    }
+
+    .tip {
+      margin-top: 20px;
+      padding: 17px 18px;
+
+      background: #182128;
+      border-radius: 12px;
+    }
+
+    .warning {
+      margin-top: 20px;
+      padding: 17px 18px;
+
+      background: #2a1c1c;
+      border-radius: 12px;
+    }
+
+    .simple-diagram {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      margin: 20px 0;
+      padding: 18px;
+
+      border-radius: 13px;
+      background: #171a1d;
+
+      font-size: 27px;
+    }
+
+    .diagram-arrow {
+      color: #777f87;
+      font-size: 20px;
+    }
+
+    /* ------------------------------
+       検索結果
+    ------------------------------ */
+
+    .search-results {
+      display: grid;
+      gap: 11px;
+    }
+
+    .result-button {
+      width: 100%;
+
+      padding: 17px 18px;
+
+      border: 1px solid #353a3f;
+      border-radius: 12px;
+
+      background: #1b1e21;
+      color: white;
+
+      text-align: left;
+    }
+
+    .result-button:hover {
+      background: #22262a;
+    }
+
+    .result-category {
+      color: #a77d50;
+      font-size: 12px;
+      font-weight: 800;
+
+      margin-bottom: 5px;
+    }
+
+    .result-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .result-description {
+      margin-top: 5px;
+
+      color: #979da3;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .empty {
+      padding: 35px;
+
+      border: 1px dashed #41464b;
+      border-radius: 14px;
+
+      color: #90979e;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ------------------------------
+       スマホ
+    ------------------------------ */
+
+    .overlay {
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      .menu-button {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 73px;
+        left: -270px;
+        bottom: 0;
+
+        z-index: 200;
+
+        transition: 0.2s ease;
+
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 73px 0 0 0;
+
+        z-index: 150;
+
+        background: rgba(0, 0, 0, 0.55);
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      .main {
+        padding: 24px 17px 70px;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card {
+        min-height: 125px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .article-section p,
+      .article-section li {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <button class="menu-button" onclick="toggleSidebar()">☰</button>
+
+    <div class="logo">
+      <div class="logo-mark">R</div>
+      <span>RimWorld Guide</span>
+    </div>
+  </header>
+
+  <div class="app">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-title">GUIDE</div>
+
+      <button class="nav-button active" onclick="showHome()">
+        🏠 ホーム
+      </button>
+
+      <div id="sidebarCategories"></div>
+    </aside>
+
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <main class="main">
+
+      <!-- ホーム -->
+      <section id="homePage">
+
+        <div class="hero">
+          <h1>RimWorld 攻略ガイド</h1>
+          <p>
+            完全初心者向け。分からないことをすぐ調べられる、
+            Royalty + Biotech 対応の個人用攻略ガイド。
+          </p>
+        </div>
+
+        <div class="search-wrap">
+          <span class="search-icon">🔎</span>
+
+          <input
+            id="searchInput"
+            class="search"
+            type="text"
+            placeholder="例：冬、捕虜、服がボロボロ、研究できない"
+            oninput="searchArticles()"
+          >
+        </div>
+
+        <div id="normalHome">
+
+          <div class="section-header">
+            <div>
+              <div class="section-title">攻略カテゴリ</div>
+              <div class="section-subtitle">
+                困っている内容に近い項目から選択
+              </div>
+            </div>
+          </div>
+
+          <div class="category-grid" id="categoryGrid"></div>
+
+        </div>
+
+        <div id="searchArea" class="hidden">
+
+          <div class="section-header">
+            <div>
+              <div class="section-title">検索結果</div>
+              <div class="section-subtitle" id="resultCount"></div>
+            </div>
+          </div>
+
+          <div class="search-results" id="searchResults"></div>
+
+        </div>
+
+      </section>
+
+      <!-- カテゴリページ -->
+      <section id="categoryPage" class="hidden"></section>
+
+      <!-- 記事ページ -->
+      <section id="articlePage" class="hidden"></section>
+
+    </main>
+  </div>
+
+  <script>
+
+    /* ============================================
+       攻略データ
+       あとからここに記事を追加していく
+    ============================================ */
+
+    const categories = [
+
+      {
+        id: "beginner",
+        icon: "🌱",
+        name: "初心者ガイド",
+        description: "ゲーム開始直後から最初の冬まで",
+        topics: [
+          {
+            id: "first-day",
+            title: "ゲーム開始直後にやること",
+            description: "まず何を建てて何を確保すればいい？",
+            tags: ["初心者", "序盤", "開始", "最初"],
+            answer: "最初は寝床・食料・備蓄場所・簡単な拠点を優先して作ろう。",
+            content: `
+              <div class="article-section">
+                <h2>最初にやること</h2>
+                <ol>
+                  <li>入植者の能力を確認する</li>
+                  <li>簡単な寝床を用意する</li>
+                  <li>備蓄ゾーンを作る</li>
+                  <li>食料を屋根のある場所へ運ぶ</li>
+                  <li>栽培ゾーンを作る</li>
+                  <li>調理場と冷凍庫を目指す</li>
+                </ol>
+              </div>
+
+              <div class="simple-diagram">
+                🛏️
+                <span class="diagram-arrow">→</span>
+                📦
+                <span class="diagram-arrow">→</span>
+                🌾
+                <span class="diagram-arrow">→</span>
+                🍚
+              </div>
+
+              <div class="tip">
+                💡 最初から完璧な基地を作る必要はない。
+                まず「寝る・食べる・保管する」ができればOK。
+              </div>
+            `
+          },
+
+          {
+            id: "work-priority",
+            title: "仕事の優先度",
+            description: "誰にどの仕事をさせればいい？",
+            tags: ["仕事", "優先度", "作業", "初心者"],
+            answer: "手動優先度を使って、得意な仕事を1〜2、その他を3〜4程度にすると管理しやすい。",
+            content: `
+              <div class="article-section">
+                <h2>基本</h2>
+                <p>
+                  数字が小さいほど優先度が高い。
+                  1が最優先、4が低優先度。
+                </p>
+              </div>
+
+              <div class="article-section">
+                <h2>初心者向け</h2>
+                <ul>
+                  <li>医療が得意 → 医療を1</li>
+                  <li>料理が得意 → 調理を1〜2</li>
+                  <li>建築が得意 → 建築を1〜2</li>
+                  <li>暇になった人 → 掃除・運搬</li>
+                </ul>
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "food",
+        icon: "🍚",
+        name: "食料・農業",
+        description: "栽培、狩猟、調理、冷凍、冬の食料",
+        topics: [
+          {
+            id: "hunting",
+            title: "動物を狩る方法",
+            description: "狩猟指定から解体まで",
+            tags: ["狩猟", "動物", "肉", "革", "食料"],
+            answer: "野生動物の一覧または対象の動物から「狩猟」を指定し、狩猟担当に遠距離武器を持たせる。",
+            content: `
+              <div class="article-section">
+                <h2>やり方</h2>
+                <ol>
+                  <li>「野生動物」を開く</li>
+                  <li>狩りたい動物の「狩猟」にチェック</li>
+                  <li>仕事タブで狩猟担当を確認</li>
+                  <li>狩猟担当に銃などを装備させる</li>
+                </ol>
+              </div>
+
+              <div class="simple-diagram">
+                🐗
+                <span class="diagram-arrow">→</span>
+                🔫
+                <span class="diagram-arrow">→</span>
+                🥩
+                <span class="diagram-arrow">＋</span>
+                👕
+              </div>
+
+              <div class="warning">
+                ⚠️ 反撃する可能性が高い動物は序盤では避ける。
+              </div>
+            `
+          },
+
+          {
+            id: "winter-farming",
+            title: "冬の農業はどうする？",
+            description: "寒くて作物が育たない時の対処",
+            tags: ["冬", "農業", "寒い", "食料", "温室"],
+            answer: "序盤の冬は無理に栽培せず、備蓄と狩猟で乗り切るのが基本。余裕ができたら温室を作る。",
+            content: `
+              <div class="article-section">
+                <h2>序盤なら</h2>
+                <ul>
+                  <li>秋までに食料を備蓄する</li>
+                  <li>冬は狩猟で肉を補充する</li>
+                  <li>冷凍庫を維持する</li>
+                  <li>農業担当は別の仕事へ回す</li>
+                </ul>
+              </div>
+
+              <div class="article-section">
+                <h2>後からできること</h2>
+                <p>
+                  屋内に栽培スペースを作り、
+                  暖房と太陽灯を使えば冬でも栽培できる。
+                </p>
+              </div>
+
+              <div class="warning">
+                ⚠️ 太陽灯は電力消費が大きいので、
+                序盤では無理に導入しなくてもいい。
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "base",
+        icon: "🏠",
+        name: "拠点・生活",
+        description: "寝室、倉庫、掃除、電力、温度管理",
+        topics: [
+          {
+            id: "cleaning",
+            title: "自動で掃除させる",
+            description: "掃除担当とホームエリア",
+            tags: ["掃除", "汚れ", "ホームエリア"],
+            answer: "仕事タブで掃除を有効にし、手が空きやすい入植者の掃除優先度を高くする。",
+            content: `
+              <div class="article-section">
+                <h2>おすすめ設定</h2>
+                <p>
+                  掃除担当を1人決めて優先度を高める。
+                  ホームエリアが広すぎると屋外まで掃除するため、
+                  必要な場所だけに絞る。
+                </p>
+              </div>
+
+              <div class="tip">
+                💡 調理場は特に清潔にしておく。
+              </div>
+            `
+          },
+
+          {
+            id: "corpse",
+            title: "死体をどこに置く？",
+            description: "襲撃者などの死体処理",
+            tags: ["死体", "襲撃者", "備蓄", "火葬"],
+            answer: "拠点から離れた場所に死体専用の備蓄ゾーンを作る。",
+            content: `
+              <div class="article-section">
+                <h2>序盤の方法</h2>
+                <ol>
+                  <li>拠点から少し離れた場所に備蓄ゾーンを作る</li>
+                  <li>保管設定を開く</li>
+                  <li>人間の死体だけ許可する</li>
+                  <li>その他のアイテムは許可しない</li>
+                </ol>
+              </div>
+
+              <div class="warning">
+                ⚠️ 入植者が死体を見ると心情が悪化することがある。
+                普段通らない場所に置く。
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "equipment",
+        icon: "👕",
+        name: "装備・衣服",
+        description: "服、防寒着、武器、防具",
+        topics: [
+          {
+            id: "tattered-clothes",
+            title: "服がボロボロになった",
+            description: "新しい服の作り方と交換",
+            tags: ["服", "ボロボロ", "裁縫", "防寒", "衣服"],
+            answer: "裁縫台で新しい服を作り、ボロボロの服から交換させる。",
+            content: `
+              <div class="article-section">
+                <h2>服を作る</h2>
+                <ol>
+                  <li>手動式裁縫台を建てる</li>
+                  <li>革や布を用意する</li>
+                  <li>作りたい衣服を加工リストに追加する</li>
+                  <li>工芸担当が制作する</li>
+                </ol>
+              </div>
+
+              <div class="article-section">
+                <h2>冬なら</h2>
+                <p>
+                  防寒性能の高い衣服を優先する。
+                  素材によって防寒性能も変わる。
+                </p>
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "combat",
+        icon: "⚔️",
+        name: "戦闘・襲撃",
+        description: "徴兵、戦闘、防衛、負傷者の救助",
+        topics: [
+          {
+            id: "basic-combat",
+            title: "襲撃された時の基本",
+            description: "初心者向け戦闘の流れ",
+            tags: ["襲撃", "戦闘", "徴兵", "敵"],
+            answer: "戦える入植者を徴兵し、遮蔽物を使って遠距離から迎撃する。",
+            content: `
+              <div class="article-section">
+                <h2>基本</h2>
+                <ol>
+                  <li>戦闘員を徴兵する</li>
+                  <li>岩や壁などの遮蔽物へ移動する</li>
+                  <li>射撃できる距離まで敵を待つ</li>
+                  <li>負傷したら無理をしない</li>
+                </ol>
+              </div>
+
+              <div class="warning">
+                ⚠️ 全員を一か所に固めすぎない。
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "prisoner",
+        icon: "⛓️",
+        name: "捕虜・仲間",
+        description: "捕虜、治療、勧誘、脱獄対策",
+        topics: [
+          {
+            id: "recruit-prisoner",
+            title: "捕虜を仲間にする",
+            description: "襲撃者を勧誘して入植者にする",
+            tags: ["捕虜", "仲間", "勧誘", "襲撃者", "囚人"],
+            answer: "捕虜を選択し、「囚人」タブの対応を「勧誘」にする。",
+            content: `
+              <div class="article-section">
+                <h2>やり方</h2>
+                <ol>
+                  <li>捕虜をクリック</li>
+                  <li>「囚人」タブを開く</li>
+                  <li>対応を「勧誘」にする</li>
+                  <li>看守が抵抗を下げる</li>
+                  <li>勧誘に成功すると仲間になる</li>
+                </ol>
+              </div>
+
+              <div class="simple-diagram">
+                🏴‍☠️
+                <span class="diagram-arrow">→</span>
+                🩸
+                <span class="diagram-arrow">→</span>
+                🛏️
+                <span class="diagram-arrow">→</span>
+                🔒
+                <span class="diagram-arrow">→</span>
+                ❤️
+              </div>
+
+              <div class="tip">
+                💡 社交が高い入植者を看守にすると勧誘しやすい。
+              </div>
+
+              <div class="warning">
+                ⚠️ 「揺るぎない忠誠心」を持つ捕虜は、
+                通常の方法では勧誘できない。
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "animals",
+        icon: "🐾",
+        name: "動物",
+        description: "狩猟、手懐け、家畜、エサ",
+        topics: [
+          {
+            id: "animal-basics",
+            title: "動物関連の基本",
+            description: "狩猟と手懐けの違い",
+            tags: ["動物", "狩猟", "手懐け"],
+            answer: "食料や革が欲しいなら狩猟、飼育したいなら手懐けを使う。",
+            content: `
+              <div class="article-section">
+                <h2>狩猟</h2>
+                <p>
+                  動物を倒して肉と革を入手する。
+                </p>
+              </div>
+
+              <div class="article-section">
+                <h2>手懐け</h2>
+                <p>
+                  動物をコロニーで飼育できるようにする。
+                </p>
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "medical",
+        icon: "🩺",
+        name: "医療",
+        description: "治療、出血、感染症、薬",
+        topics: [
+          {
+            id: "bleeding",
+            title: "出血している",
+            description: "負傷者を治療する基本",
+            tags: ["医療", "出血", "治療", "負傷"],
+            answer: "まず安全な場所へ救助し、医療用ベッドで治療を受けさせる。",
+            content: `
+              <div class="article-section">
+                <h2>優先すること</h2>
+                <ol>
+                  <li>敵がいない安全な場所へ運ぶ</li>
+                  <li>医療担当を確認する</li>
+                  <li>治療を開始する</li>
+                  <li>大量出血なら最優先で対応する</li>
+                </ol>
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "research",
+        icon: "🔬",
+        name: "研究",
+        description: "研究台、研究担当、序盤おすすめ研究",
+        topics: [
+          {
+            id: "research-bench",
+            title: "研究台で研究できない",
+            description: "設備条件や前提研究を確認",
+            tags: ["研究", "研究台", "研究できない", "ハイテク"],
+            answer: "選んでいる研究が、その研究台では対応していない可能性がある。研究内容の必要設備を確認する。",
+            content: `
+              <div class="article-section">
+                <h2>確認すること</h2>
+                <ul>
+                  <li>研究プロジェクトを選択しているか</li>
+                  <li>研究担当が設定されているか</li>
+                  <li>必要な研究設備を満たしているか</li>
+                  <li>前提研究が完了しているか</li>
+                </ul>
+              </div>
+
+              <div class="tip">
+                💡 序盤は簡素な研究台で進め、
+                後からハイテク研究設備へ移行する。
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "danger",
+        icon: "⚠️",
+        name: "危険・詰み対策",
+        description: "放置するとコロニー崩壊につながる問題",
+        topics: [
+          {
+            id: "food-crisis",
+            title: "食料が尽きそう",
+            description: "冬や不作で食料が不足した時",
+            tags: ["詰み", "食料不足", "冬", "飢餓"],
+            answer: "狩猟・収穫・残っている食料の確認を最優先。調理と冷凍設備も確認する。",
+            content: `
+              <div class="warning">
+                🔴 食料が数日分しかない場合は最優先で対応。
+              </div>
+
+              <div class="article-section">
+                <h2>今すぐ確認</h2>
+                <ul>
+                  <li>マップ上に狩れる動物はいる？</li>
+                  <li>収穫できる作物はある？</li>
+                  <li>冷凍庫は動いている？</li>
+                  <li>料理担当が倒れていない？</li>
+                </ul>
+              </div>
+            `
+          },
+
+          {
+            id: "power-crisis",
+            title: "電力が止まった",
+            description: "冷凍庫や暖房が停止した時",
+            tags: ["電力", "停電", "冷凍庫", "暖房", "詰み"],
+            answer: "発電設備・電線・バッテリーを確認し、生命維持に必要な設備を優先する。",
+            content: `
+              <div class="article-section">
+                <h2>優先順位</h2>
+                <ol>
+                  <li>冷凍庫</li>
+                  <li>冬なら暖房</li>
+                  <li>必要最低限の照明や設備</li>
+                  <li>余裕ができてからその他の設備</li>
+                </ol>
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "royalty",
+        icon: "👑",
+        name: "Royalty",
+        description: "帝国、名誉、爵位、サイキャスト",
+        topics: [
+          {
+            id: "royalty-intro",
+            title: "Royaltyって何をすればいい？",
+            description: "DLC要素の最初の理解",
+            tags: ["Royalty", "帝国", "爵位", "名誉"],
+            answer: "最初は帝国関連のクエストを通して、名誉・爵位・サイキャストの仕組みを覚えていけばOK。",
+            content: `
+              <div class="article-section">
+                <h2>主な要素</h2>
+                <ul>
+                  <li>帝国</li>
+                  <li>名誉</li>
+                  <li>爵位</li>
+                  <li>許可証</li>
+                  <li>サイリンク</li>
+                  <li>サイキャスト</li>
+                </ul>
+              </div>
+
+              <div class="tip">
+                💡 初心者のうちは、
+                通常のコロニー運営を優先しても問題ない。
+              </div>
+            `
+          }
+        ]
+      },
+
+      {
+        id: "biotech",
+        icon: "🧬",
+        name: "Biotech",
+        description: "メカノイド、子供、遺伝子、ゼノタイプ",
+        topics: [
+          {
+            id: "biotech-intro",
+            title: "Biotechで増える要素",
+            description: "初心者向けDLC概要",
+            tags: ["Biotech", "メカノイド", "子供", "遺伝子"],
+            answer: "主にメカノイド運用、子供と成長、ゼノタイプと遺伝子などの要素が追加される。",
+            content: `
+              <div class="article-section">
+                <h2>大きく3つ</h2>
+                <ul>
+                  <li>🤖 メカノイド・メカニター</li>
+                  <li>👶 妊娠・子供・成長</li>
+                  <li>🧬 ゼノタイプ・遺伝子</li>
+                </ul>
+              </div>
+            `
+          }
+        ]
+      }
+
+    ];
+
+
+    /* ============================================
+       初期表示
+    ============================================ */
+
+    function renderHomeCategories() {
+
+      const grid = document.getElementById("categoryGrid");
+      const sidebar = document.getElementById("sidebarCategories");
+
+      grid.innerHTML = "";
+      sidebar.innerHTML = "";
+
+      categories.forEach(category => {
+
+        const card = document.createElement("button");
+        card.className = "category-card";
+
+        card.innerHTML = `
+          <div class="category-icon">${category.icon}</div>
+          <div class="category-name">${category.name}</div>
+          <div class="category-description">
+            ${category.description}
+          </div>
+        `;
+
+        card.onclick = () => showCategory(category.id);
+
+        grid.appendChild(card);
+
+
+        const nav = document.createElement("button");
+        nav.className = "nav-button";
+
+        nav.innerHTML = `
+          ${category.icon} ${category.name}
+        `;
+
+        nav.onclick = () => showCategory(category.id);
+
+        sidebar.appendChild(nav);
+
+      });
+
+    }
+
+
+    /* ============================================
+       ホーム表示
+    ============================================ */
+
+    function showHome() {
+
+      document.getElementById("homePage").classList.remove("hidden");
+      document.getElementById("categoryPage").classList.add("hidden");
+      document.getElementById("articlePage").classList.add("hidden");
+
+      document.getElementById("searchInput").value = "";
+
+      document.getElementById("normalHome").classList.remove("hidden");
+      document.getElementById("searchArea").classList.add("hidden");
+
+      closeSidebar();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* ============================================
+       カテゴリ表示
+    ============================================ */
+
+    function showCategory(categoryId) {
+
+      const category = categories.find(
+        item => item.id === categoryId
+      );
+
+      if (!category) return;
+
+      const page = document.getElementById("categoryPage");
+
+      page.innerHTML = `
+        <button class="back-button" onclick="showHome()">
+          ← ホームへ戻る
+        </button>
+
+        <h1 class="page-title">
+          ${category.icon} ${category.name}
+        </h1>
+
+        <p class="page-description">
+          ${category.description}
+        </p>
+
+        <div class="topic-list">
+
+          ${category.topics.map(topic => `
+            <button
+              class="topic-button"
+              onclick="showArticle('${category.id}', '${topic.id}')"
+            >
+
+              <div>
+                <div class="topic-title">
+                  ${topic.title}
+                </div>
+
+                <div class="topic-description">
+                  ${topic.description}
+                </div>
+              </div>
+
+              <span class="arrow">›</span>
+
+            </button>
+          `).join("")}
+
+        </div>
+      `;
+
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("articlePage").classList.add("hidden");
+      page.classList.remove("hidden");
+
+      closeSidebar();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* ============================================
+       記事表示
+    ============================================ */
+
+    function showArticle(categoryId, topicId) {
+
+      const category = categories.find(
+        item => item.id === categoryId
+      );
+
+      if (!category) return;
+
+      const topic = category.topics.find(
+        item => item.id === topicId
+      );
+
+      if (!topic) return;
+
+      const page = document.getElementById("articlePage");
+
+      page.innerHTML = `
+        <div class="article">
+
+          <button
+            class="back-button"
+            onclick="showCategory('${category.id}')"
+          >
+            ← ${category.name}へ戻る
+          </button>
+
+          <h1>
+            ${topic.title}
+          </h1>
+
+          <div class="answer-box">
+
+            <div class="answer-label">
+              まず結論
+            </div>
+
+            <div class="answer-text">
+              ${topic.answer}
+            </div>
+
+          </div>
+
+          ${topic.content}
+
+        </div>
+      `;
+
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("categoryPage").classList.add("hidden");
+
+      page.classList.remove("hidden");
+
+      closeSidebar();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* ============================================
+       検索
+    ============================================ */
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .replace(/\s+/g, "");
+    }
+
+    function searchArticles() {
+
+      const input = document.getElementById("searchInput");
+      const query = normalize(input.value);
+
+      const normalHome = document.getElementById("normalHome");
+      const searchArea = document.getElementById("searchArea");
+      const results = document.getElementById("searchResults");
+      const count = document.getElementById("resultCount");
+
+      if (!query) {
+
+        normalHome.classList.remove("hidden");
+        searchArea.classList.add("hidden");
+
+        return;
+      }
+
+      normalHome.classList.add("hidden");
+      searchArea.classList.remove("hidden");
+
+      const keywords = query.split(" ").filter(Boolean);
+
+      const found = [];
+
+      categories.forEach(category => {
+
+        category.topics.forEach(topic => {
+
+          const searchableText = normalize(`
+            ${category.name}
+            ${category.description}
+            ${topic.title}
+            ${topic.description}
+            ${topic.answer}
+            ${topic.tags.join(" ")}
+          `);
+
+          const originalWords =
+            input.value
+              .toLowerCase()
+              .trim()
+              .split(/\s+/)
+              .filter(Boolean);
+
+          const match =
+            originalWords.every(word =>
+              searchableText.includes(normalize(word))
+            );
+
+          if (match) {
+
+            found.push({
+              category,
+              topic
+            });
+
+          }
+
+        });
+
+      });
+
+
+      count.textContent = `${found.length}件`;
+
+      if (found.length === 0) {
+
+        results.innerHTML = `
+          <div class="empty">
+            該当する攻略が見つかりませんでした。<br><br>
+            「冬」「服」「捕虜」など、
+            短い言葉でも検索してみてください。
+          </div>
+        `;
+
+        return;
+      }
+
+
+      results.innerHTML = found.map(item => `
+
+        <button
+          class="result-button"
+          onclick="showArticle(
+            '${item.category.id}',
+            '${item.topic.id}'
+          )"
+        >
+
+          <div class="result-category">
+            ${item.category.icon}
+            ${item.category.name}
+          </div>
+
+          <div class="result-title">
+            ${item.topic.title}
+          </div>
+
+          <div class="result-description">
+            ${item.topic.description}
+          </div>
+
+        </button>
+
+      `).join("");
+
+    }
+
+
+    /* ============================================
+       スマホメニュー
+    ============================================ */
+
+    function toggleSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+      document
+        .getElementById("overlay")
+        .classList.toggle("show");
+
+    }
+
+    function closeSidebar() {
+
+      document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+      document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+    }
+
+
+    renderHomeCategories();
+
+  </script>
+
+</body>
+</html>
