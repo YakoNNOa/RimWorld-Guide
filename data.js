@@ -4,6 +4,7 @@ const categories = [
 
   foodData,
 
-  baseData
+  baseData,
 
+  combatData
 ];
